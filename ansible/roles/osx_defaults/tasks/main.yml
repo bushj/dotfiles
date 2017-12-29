@@ -1,0 +1,149 @@
+---
+###############################################################
+#  Keyboard                                                   #
+###############################################################
+
+# Set fast ke repeat rate
+- name: Keyboard - KeyRepeat
+  osx_defaults: domain=NSGlobalDomain key=KeyRepeat type=int value=1 state=present
+
+# Set delay until key repeat
+- name: Keyboard - InitialKeyRepeat
+  osx_defaults: domain=NSGlobalDomain key=InitialKeyRepeat type=int value=10 state=present
+
+###############################################################
+#  Touch Pad                                                  #
+###############################################################
+
+# Reverse the default scroll direction
+- name: Touch Pad - swipescrolldirection
+  osx_defaults: domain=NSGlobalDomain key=com.apple.swipescrolldirection type=bool value=false state=present
+
+###############################################################
+#  Dock                                                       #
+###############################################################
+
+# Autohide Dock
+- name: Dock - autohide
+  osx_defaults: domain=com.apple.dock key=autohide type=int value=1 state=present
+
+# Autohide Speed
+- name: Dock - autohide-time-modifier
+  osx_defaults: domain=com.apple.dock key=autohide-time-modifier type=float value=1 state=present
+
+# Display only active icons
+- name: Dock - static-only
+  osx_defaults: domain=com.apple.dock key=static-only type=bool value=true state=present
+
+# Set the icon size of Dock items to X pixels
+- name: Dock - tilesize
+  osx_defaults: domain=com.apple.dock key=tilesize type=int value=72 state=present
+
+# Hot corners
+# Possible values:
+#  0: no-op
+#  2: Mission Control
+#  3: Show application windows
+#  4: Desktop
+#  5: Start screen saver
+#  6: Disable screen saver
+#  7: Dashboard
+# 10: Put display to sleep
+# 11: Launchpad
+# 12: Notification Center
+
+# Top right screen corner → Start screen saver
+- name: Screen - hotcorner top right -> screensaver
+  osx_defaults: domain=com.apple.dock key=wvous-tr-corner type=int value=5 state=present
+
+# Top right screen corner → Start screen saver
+- name: Screen - hotcorner top right -> screensaver
+  osx_defaults: domain=com.apple.dock key=wvous-tr-modifier type=int value=0 state=present
+
+# Bottom left screen corner → show Desktop
+- name: Screen - hotcorner bottom left -> show desktop
+  osx_defaults: domain=com.apple.dock key=wvous-bl-corner type=int value=4 state=present
+
+# Bottom left screen corner → show Desktop
+- name: Screen - hotcorner bottom left -> show desktop
+  osx_defaults: domain=com.apple.dock key=wvous-bl-modifier type=int value=0 state=present
+
+###############################################################
+#  Screen                                                     #
+###############################################################
+
+# Require password immediately after sleep or screen saver begins
+- name: Screen - askForPassword on wakeup
+  osx_defaults: domain=com.apple.screensaver key=askForPassword type=int value=1 state=present
+
+# Require password immediately after sleep or screen saver begins
+- name: Screen - askForPasswordDelay
+  osx_defaults: domain=com.apple.screensaver key=askForPasswordDelay type=int value=0 state=present
+
+# Save screenshots to the desktop
+- name: Screen - screencapture save location
+  osx_defaults: domain=com.apple.screencapture key=location type=string value="${HOME}/Desktop/" state=present
+
+# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+- name: Screen - screencapture type (png)
+  osx_defaults: domain=com.apple.screencapture key=type type=string value="png" state=present
+
+###############################################################
+#  Finder                                                     #
+###############################################################
+
+# Set Desktop as the default location for new Finder windows
+# For other paths, use `PfLo` and `file://full/path/here/`
+- name: Finder - NewWindowTarget
+  osx_defaults: domain=com.apple.finder key=NewWindowTarget type=string value="PfLo" state=present
+
+- name: Finder - NewWindowTargetPath
+  osx_defaults: domain=com.apple.finder key=NewWindowTarget type=string value="file://${HOME}/" state=present
+
+# Finder: show all filename extensions
+- name: Finder - AppleShowAllExtensions
+  osx_defaults: domain=NSGlobalDomain key=AppleShowAllExtensions type=bool value=true state=present
+
+# Finder: show status bar
+- name: Finder - ShowStatusBar
+  osx_defaults: domain=com.apple.finder key=ShowStatusBar type=bool value=false state=present
+
+# Finder: show path bar
+- name: Finder - ShowPathbar
+  osx_defaults: domain=com.apple.finder key=ShowPathbar type=bool value=false state=present
+
+# Keep folders on top when sorting by name
+- name: Finder - ShowPathbar
+  osx_defaults: domain=com.apple.finder key=_FXSortFoldersFirst type=bool value=true state=present
+
+# Avoid creating .DS_Store files on network or USB volumes
+- name: Finder - DSDontWriteNetworkStores
+  osx_defaults: domain=com.apple.desktopservices key=DSDontWriteNetworkStores type=bool value=true state=present
+
+- name: Finder - DSDontWriteUSBStores
+  osx_defaults: domain=com.apple.desktopservices key=DSDontWriteUSBStores type=bool value=true state=present
+
+# Use list view in all Finder windows by default
+# Four-letter codes for the other view modes: `icnv`, `Nlsv`, `clmv`, `Flwv`
+- name: Finder - DSDontWriteUSBStores
+  osx_defaults: domain=com.apple.finder key=FXPreferredViewStyle type=string value="clmv" state=present
+
+# Show the ~/Library folder
+- name: Finder - show ~/Library folder
+  command: chflags nohidden ~/Library
+
+# Finder: show hidden files by default
+- name: Finder - AppleShowAllFiles
+  osx_defaults: domain=com.apple.finder key=AppleShowAllFiles type=bool value=false state=present
+
+###############################################################
+#  Misc                                                       #
+###############################################################
+
+# Don’t display the annoying prompt when quitting iTerm
+- name: Misc - iterm2 no PromptOnQuit
+  osx_defaults: domain=com.googlecode.iterm2 key=PromptOnQuit type=bool value=false state=present
+
+# Save to disk (not to iCloud) by default
+- name: Misc - NSDocumentSaveNewDocumentsToCloud
+  osx_defaults: domain=NSGlobalDomain key=NSDocumentSaveNewDocumentsToCloud type=bool value=false state=present
