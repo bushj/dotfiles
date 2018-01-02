@@ -10,7 +10,7 @@
   file:
     state: link
     src: "{{ item.path }}"
-    dest: "$HOME/{{ (item.path | basename | splitext)[0] | regex_replace('^(.*)$', '.\\1') }}.PLSDELME"
+    dest: "$HOME/{{ (item.path | basename | splitext)[0] | regex_replace('^(.*)$', '.\\1') }}"
   with_items: "{{ files_to_symlink.files }}"
   # The filter on the dest parameter is quite gross, but gets the job done:
   #    Let's follow the an item through the filter:
