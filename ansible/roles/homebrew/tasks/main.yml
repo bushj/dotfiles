@@ -1,0 +1,5 @@
+---
+- name: Install items in brewfile
+  command: brew bundle
+  args:
+    chdir: "{{ dotfiles_installation_path }}/files/homebrew/"
