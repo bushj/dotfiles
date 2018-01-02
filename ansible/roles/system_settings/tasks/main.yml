@@ -1,0 +1,3 @@
+---
+- name: Set default shell
+  command: chsh -s "{{ default_shell }}"
