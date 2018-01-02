@@ -1,0 +1,12 @@
+---
+- name: Set git_credential_helper to osxkeychain if on OSX
+  set_fact:
+    git_credential_helper: osxkeychain
+  when:
+    ansible_system == "Darwin"
+
+- name: Create gitconfig.symlink with appropriate credentials
+  template:
+    src: gitconfig.symlink.j2
+    dest: "{{ dotfiles_installation_path }}/files/git/gitconfig.symlink"
+    force: no
