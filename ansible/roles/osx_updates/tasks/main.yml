@@ -1,0 +1,3 @@
+---
+- name: Install any outstanding Apple updates with 'sudo softwareupdate -i -a'
+  command: sudo softwareupdate -i -a
