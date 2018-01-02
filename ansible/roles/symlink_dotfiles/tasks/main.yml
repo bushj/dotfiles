@@ -1,0 +1,23 @@
+---
+- name: Find *.symlink files in /dotfiles
+  find:
+    paths: "{{ dotfiles_installation_path }}/files/"
+    patterns: '*.symlink'
+    recurse: yes
+  register: files_to_symlink
+
+- name: Create symlinks to dotfiles
+  file:
+    state: link
+    src: "{{ item.path }}"
+    dest: "$HOME/{{ (item.path | basename | splitext)[0] | regex_replace('^(.*)$', '.\\1') }}.PLSDELME"
+  with_items: "{{ files_to_symlink.files }}"
+  # The filter on the dest parameter is quite gross, but gets the job done:
+  #    Let's follow the an item through the filter:
+  #     (item.path
+  #     | basename                         1. Every item passed to this task is an absolute path, this step strips all path data and leaves just the filename
+  #     | splitext )[0]                    2. Each filename passed is expected to end with .symlink, the splitext filter will split the file on the '.', the [0] element of the result is the filename, with '.symlink' removed
+  #
+  #     | regex_replace('^(.*)$', '.\\1')  3. We pass the raw filename into a regular expression that appends a '.' to the filename (these are our dotfiles afterall).
+  #
+  #     Detailed filter info: http://docs.ansible.com/ansible/latest/playbooks_filters.html#filters-for-formatting-data
