@@ -11,8 +11,8 @@
     prompt: "what is your github email?"
 
   roles:
-    - { role: symlink_dotfiles }
     - { role: git_setup }
+    - { role: symlink_dotfiles }
     - { role: homebrew }
     - { role: osx_defaults }
     - { role: osx_updates }
