@@ -6,6 +6,7 @@ brew 'go'
 brew 'jq'
 brew 'openssl'
 brew 'python'
+brew 'python3'
 brew 'tmux'
 
 cask 'atom'
