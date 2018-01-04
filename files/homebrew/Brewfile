@@ -11,7 +11,6 @@ brew 'tmux'
 
 cask 'atom'
 cask 'cinch'
-cask 'dropbox'
 cask 'flux'
 cask 'google-chrome'
 cask 'iterm2'
