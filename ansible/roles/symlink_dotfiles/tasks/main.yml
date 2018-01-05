@@ -4,6 +4,7 @@
     paths: "{{ dotfiles_installation_path }}/files/"
     patterns: '*.symlink'
     recurse: yes
+    file_type: any
   register: files_to_symlink
 
 - name: Create symlinks to dotfiles
