@@ -1,3 +1,8 @@
 ---
 - name: Set default shell
   command: chsh -s "{{ default_shell }}"
+
+- name: Create local_bin folder
+  file:
+    path: ~/local_bin
+    state: directory
