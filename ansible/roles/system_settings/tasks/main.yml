@@ -6,3 +6,4 @@
   file:
     path: ~/local_bin
     state: directory
+    force: no
