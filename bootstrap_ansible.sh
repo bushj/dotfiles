@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-# Bootstrap Ansible into a virtual python environment on osx
+# Bootstrap Ansible into a virtual python environment on desired OS
 
 # print formatted info
 info () {
@@ -29,7 +29,14 @@ brew_install_python () {
   brew install python3
 }
 
-pip_install_virtualenvwrapper () {
+install_pip_on_linux () {
+  info "Installing pip"
+  sudo apt-get update
+  sudo apt-get -y install python3-pip
+  pip3 install --upgrade pip
+}
+
+pip_install_virtualenvwrapper_on_osx () {
   info "Pip installing virtualenvwrapper"
   if [[ "$VIRTUAL_ENV" != "" ]]
   then
@@ -39,7 +46,17 @@ pip_install_virtualenvwrapper () {
   fi
 }
 
-create_virtual_environment () {
+pip_install_virtualenvwrapper_on_linux () {
+  info "Pip installing virtualenvwrapper"
+  if [[ "$VIRTUAL_ENV" != "" ]]
+  then
+    info "Already in a virtualenv, skipping"
+  else
+    pip3 install --user virtualenvwrapper
+  fi
+}
+
+create_virtual_environment_on_osx () {
   info "Creating virtual python environment"
 
   ### virtualenvwrapper init:
@@ -52,6 +69,19 @@ create_virtual_environment () {
   mkvirtualenv -p /usr/local/bin/python3 py3
 }
 
+create_virtual_environment_on_linux () {
+  info "Creating virtual python environment"
+
+  ### virtualenvwrapper init:
+  export VIRTUAL_ENV_DISABLE_PROMPT=true
+  export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+  export WORKON_HOME=$HOME/.virtualenvs
+  source `which virtualenvwrapper.sh`
+
+  # create python3 virtual environment
+  mkvirtualenv -p /usr/bin/python3 py3
+}
+
 pip_install_ansible () {
   info "Pip installing Ansible"
   pip install ansible
@@ -62,14 +92,33 @@ run_setup_playbook () {
   ansible-playbook -i "localhost," -c local ansible/playbook.yml
 }
 
-main () {
+bootstrap_osx () {
   info "Preparing system for Ansible"
   install_homebrew
   brew_install_python
-  pip_install_virtualenvwrapper
-  create_virtual_environment
+  pip_install_virtualenvwrapper_on_osx
+  create_virtual_environment_on_osx
   pip_install_ansible
   run_setup_playbook
+}
+
+bootstrap_linux () {
+  info "Preparing system for Ansible"
+  install_pip_on_linux
+  pip_install_virtualenvwrapper_on_linux
+  create_virtual_environment_on_linux
+  pip_install_ansible
+  run_setup_playbook
+}
+
+main () {
+  OPERATING_SYSTEM="`uname`"
+  info "Bootstrapping Ansible onto $OPERATING_SYSTEM"
+  case "$OPERATING_SYSTEM" in
+    'Darwin') bootstrap_osx ;;
+    'Linux')  bootstrap_linux ;;
+    *)        info "Not configured to bootstrap on $OPERATING_SYSTEM" ;;
+  esac
 }
 
 main
