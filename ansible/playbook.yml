@@ -14,6 +14,6 @@
     - { role: git_setup }
     - { role: symlink_dotfiles }
     - { role: system_settings }
-    - { role: homebrew }
-    - { role: osx_defaults }
-    - { role: osx_updates }
+    - { role: homebrew, when: ansible_os_family == 'Darwin' }
+    - { role: osx_defaults, when: ansible_os_family == 'Darwin' }
+    - { role: osx_updates, when: ansible_os_family == 'Darwin' }
