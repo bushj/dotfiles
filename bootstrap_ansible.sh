@@ -92,6 +92,11 @@ run_setup_playbook () {
   ansible-playbook -i "localhost," -c local ansible/playbook.yml
 }
 
+run_setup_playbook_py3_interpreter () {
+  info "Running installation playbook"
+  ansible-playbook -i "localhost," -c local ansible/playbook.yml -e 'ansible_python_interpreter=/usr/bin/python3'
+}
+
 bootstrap_osx () {
   info "Preparing system for Ansible"
   install_homebrew
@@ -108,7 +113,7 @@ bootstrap_linux () {
   pip_install_virtualenvwrapper_on_linux
   create_virtual_environment_on_linux
   pip_install_ansible
-  run_setup_playbook
+  run_setup_playbook_py3_interpreter
 }
 
 main () {
