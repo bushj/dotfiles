@@ -29,11 +29,21 @@ brew_install_python () {
   brew install python3
 }
 
+update_and_upgrade_apt () {
+  info "Updating and Upgrade apt"
+  sudo apt-get update
+  sudo apt-get -y upgrade
+}
+
 install_pip_on_linux () {
   info "Installing pip"
-  sudo apt-get update
   sudo apt-get -y install python3-pip
   pip3 install --upgrade pip
+}
+
+install_zsh_on_linux () {
+  info "Installing zsh"
+  sudo apt-get -y install zsh
 }
 
 pip_install_virtualenvwrapper_on_osx () {
@@ -109,6 +119,8 @@ bootstrap_osx () {
 
 bootstrap_linux () {
   info "Preparing system for Ansible"
+  update_and_upgrade_apt
+  install_zsh_on_linux
   install_pip_on_linux
   pip_install_virtualenvwrapper_on_linux
   create_virtual_environment_on_linux
