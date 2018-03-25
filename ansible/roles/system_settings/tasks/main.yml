@@ -1,6 +1,14 @@
 ---
-- name: Set default shell
+- name: Set default shell (osx)
   command: chsh -s "{{ default_shell }}"
+  when: ansible_os_family == 'Darwin'
+
+- name: Set default shell (linux)
+  user:
+    name: "{{ lookup('env','USER') }}"
+    shell: "{{ default_shell }}"
+  become: yes
+  when: ansible_os_family == 'Debian'
 
 - name: Create local_bin folder
   file:
