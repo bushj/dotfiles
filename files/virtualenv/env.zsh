@@ -15,13 +15,13 @@ export PROJECT_HOME=$HOME/.venv_projects
 
 OPERATING_SYSTEM="`uname`"
 case "$OPERATING_SYSTEM" in
-'Darwin') VIRTUALENVWRAPPER_PYTHON=OSX_PYTHON_INTERPRETER
+'Darwin') VIRTUALENVWRAPPER_PYTHON=$OSX_PYTHON_INTERPRETER
           # source the virtualenvwrapper script
-		  source OSX_VIRTUALENVWRAPPER_SCRIPT
+		  source $OSX_VIRTUALENVWRAPPER_SCRIPT
           ;;
-'Linux')  VIRTUALENVWRAPPER_PYTHON=LINUX_PYTHON_INTERPRETER
+'Linux')  VIRTUALENVWRAPPER_PYTHON=$LINUX_PYTHON_INTERPRETER
           # source the virtualenvwrapper script
-          source LINUX_VIRTUALENVWRAPPER_SCRIPT
+          source $LINUX_VIRTUALENVWRAPPER_SCRIPT
           ;;
 *)        echo "virtualenvwrapper not yet configured for: $OPERATING_SYSTEM" ;;
 esac
