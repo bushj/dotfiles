@@ -98,7 +98,8 @@ create_virtual_environment_on_linux () {
   export VIRTUAL_ENV_DISABLE_PROMPT=true
   export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
   export WORKON_HOME=$HOME/.virtualenvs
-  source `which virtualenvwrapper.sh`
+  # source virtualenvwrapper script from pip --user install location
+  source $HOME/.local/bin/virtualenvwrapper.sh
 
   # create python3 virtual environment
   mkvirtualenv -p /usr/bin/python3 py3
@@ -112,14 +113,14 @@ pip_install_ansible () {
 run_setup_playbook () {
   info "Running installation playbook"
   ansible-playbook -i "localhost," -c local ansible/playbook.yml \
-                                   --extra-vars "git_name=$GIT_NAME git_email=$GIT_EMAIL"
+          --extra-vars "git_name=$GIT_NAME git_email=$GIT_EMAIL"
 }
 
 run_setup_playbook_py3_interpreter () {
   info "Running installation playbook"
   ansible-playbook -i "localhost," -c local ansible/playbook.yml \
-                                   -e 'ansible_python_interpreter=/usr/bin/python3' \ 
-                                   --extra-vars "git_name=$GIT_NAME git_email=$GIT_EMAIL"
+          -e 'ansible_python_interpreter=/usr/bin/python3' \
+          --extra-vars "git_name=$GIT_NAME git_email=$GIT_EMAIL"
 }
 
 bootstrap_osx () {
