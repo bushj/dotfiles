@@ -10,6 +10,18 @@ info () {
   printf "$prefix $1$suffix"
 }
 
+prompt_for_git_credentials () {
+  # If credentials haven't already been configured, collect github info
+  if [ -e files/git/gitconfig.symlink ]
+  then
+      GIT_NAME=""
+      GIT_EMAIL=""
+  else
+      read -p "Enter your Github username: " GIT_NAME
+      read -p "Enter your Github email: " GIT_EMAIL
+  fi
+}
+
 install_homebrew () {
   info "Installing Homebrew"
   if test ! $(which brew)
@@ -99,12 +111,15 @@ pip_install_ansible () {
 
 run_setup_playbook () {
   info "Running installation playbook"
-  ansible-playbook -i "localhost," -c local ansible/playbook.yml
+  ansible-playbook -i "localhost," -c local ansible/playbook.yml \
+                                   --extra-vars "git_name=$GIT_NAME git_email=$GIT_EMAIL"
 }
 
 run_setup_playbook_py3_interpreter () {
   info "Running installation playbook"
-  ansible-playbook -i "localhost," -c local ansible/playbook.yml -e 'ansible_python_interpreter=/usr/bin/python3'
+  ansible-playbook -i "localhost," -c local ansible/playbook.yml \
+                                   -e 'ansible_python_interpreter=/usr/bin/python3' \ 
+                                   --extra-vars "git_name=$GIT_NAME git_email=$GIT_EMAIL"
 }
 
 bootstrap_osx () {
@@ -129,6 +144,7 @@ bootstrap_linux () {
 }
 
 main () {
+  prompt_for_git_credentials
   OPERATING_SYSTEM="`uname`"
   info "Bootstrapping Ansible onto $OPERATING_SYSTEM"
   case "$OPERATING_SYSTEM" in

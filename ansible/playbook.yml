@@ -3,13 +3,7 @@
 
   vars:
     dotfiles_installation_path: "$HOME/dotfiles"
-
-  vars_prompt:
-  - name: "git_name"
-    prompt: "What is your git use name?"
-  - name: "git_email"
-    prompt: "what is your github email?"
-
+    
   roles:
     - { role: git_setup }
     - { role: symlink_dotfiles }
