@@ -26,7 +26,7 @@ brew_install_python () {
   info "Brew installing python2"
   brew install python2
   info "Brew installing python3"
-  brew install python3
+  brew install python
 }
 
 install_pip_on_linux () {
@@ -37,6 +37,8 @@ install_pip_on_linux () {
 }
 
 pip_install_virtualenvwrapper_on_osx () {
+  info "Upgrading system Pip"
+  pip install --upgrade pip
   info "Pip installing virtualenvwrapper"
   if [[ "$VIRTUAL_ENV" != "" ]]
   then
