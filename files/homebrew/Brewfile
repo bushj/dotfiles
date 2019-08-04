@@ -10,11 +10,10 @@ brew 'python'
 brew 'python3'
 brew 'tmux'
 
-cask 'atom'
 cask 'cinch'
 cask 'flux'
 cask 'google-chrome'
 cask 'iterm2'
-cask 'sublime-text'
 cask 'vagrant'
+cask 'visual-studio-code"
 cask 'vlc'
