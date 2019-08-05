@@ -21,3 +21,13 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
+
+rebuild-py3-virtualenv () {
+	printf "\n\nRemoving and rebuilding py3 virtual environment...\n\n"
+	if [[ "$VIRTUAL_ENV" != "" ]]
+    then
+      deactivate;
+	fi
+	rmvirtualenv py3;
+	mkvirtualenv -p /usr/local/bin/python3 py3;
+}
