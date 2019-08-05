@@ -9,6 +9,7 @@ brew 'openssl'
 brew 'python'
 brew 'python3'
 brew 'tmux'
+brew 'tree'
 
 cask 'cinch'
 cask 'flux'
