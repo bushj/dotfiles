@@ -16,17 +16,21 @@ install_homebrew () {
   then
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   else
-      info "Homebrew is already installed, skipping"
+      info "    Homebrew is already installed, skipping"
   fi
 }
 
 brew_install_python () {
-  info "Updating Homebrew"
-  brew update
-  info "Brew installing python2"
-  brew install python2
-  info "Brew installing python3"
-  brew install python
+  info "Installing python via Homebrew"
+  if  ! brew list --versions python > /dev/null;
+  then
+    info "Updating Homebrew"
+    brew update
+    info "Brew installing python3"
+    brew install python
+  else
+    info "    Python is already brew installed, skipping"
+  fi
 }
 
 install_pip_on_linux () {
@@ -86,7 +90,12 @@ create_virtual_environment_on_linux () {
 
 pip_install_ansible () {
   info "Pip installing Ansible"
-  pip install ansible
+  if  ! ansible --version > /dev/null;
+  then
+    pip install ansible
+  else
+    info "    Ansible is already pip installed, skipping"
+  fi
 }
 
 run_setup_playbook () {
@@ -98,8 +107,17 @@ bootstrap_osx () {
   info "Preparing system for Ansible"
   install_homebrew
   brew_install_python
-  pip_install_virtualenvwrapper_on_osx
-  create_virtual_environment_on_osx
+
+  info "Installing pip and creating virtualenv"
+  # If in a a virtualenv, skip pip installation and virtualenv creation
+  if [[ "$VIRTUAL_ENV" != "" ]]
+  then
+    info "    Already in a virtualenv, skipping pip installation and virtualenv creation"
+  else
+    pip_install_virtualenvwrapper_on_osx
+    create_virtual_environment_on_osx
+  fi
+
   pip_install_ansible
   run_setup_playbook
 }
@@ -107,8 +125,17 @@ bootstrap_osx () {
 bootstrap_linux () {
   info "Preparing system for Ansible"
   install_pip_on_linux
-  pip_install_virtualenvwrapper_on_linux
-  create_virtual_environment_on_linux
+
+  info "Installing pip and creating virtualenv"
+  # If in a a virtualenv, skip pip installation and virtualenv creation
+  if [[ "$VIRTUAL_ENV" != "" ]]
+  then
+    info "    Already in a virtualenv, skipping pip installation and virtualenv creation"
+  else
+    pip_install_virtualenvwrapper_on_linux
+    create_virtual_environment_on_linux
+  fi
+
   pip_install_ansible
   run_setup_playbook
 }
