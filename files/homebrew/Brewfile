@@ -15,5 +15,5 @@ cask 'flux'
 cask 'google-chrome'
 cask 'iterm2'
 cask 'vagrant'
-cask 'visual-studio-code"
+cask 'visual-studio-code'
 cask 'vlc'
