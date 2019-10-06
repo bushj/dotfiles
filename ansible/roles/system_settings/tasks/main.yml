@@ -7,3 +7,9 @@
     path: ~/local_bin
     state: directory
     force: no
+
+- name: Create ~/DEV folder
+  file:
+    path: ~/DEV
+    state: directory
+    force: no
